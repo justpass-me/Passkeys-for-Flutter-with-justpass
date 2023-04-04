@@ -16,6 +16,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  plugin_platform_interface: ^2.0.2
+  font_awesome_flutter: ^9.1.0
 
   justpassme_flutter:
     # When depending on this package from a real application you should use:

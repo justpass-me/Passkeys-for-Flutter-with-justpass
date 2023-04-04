@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:justpassme_flutter_example/theme.dart';
 import 'package:justpassme_flutter_example/widgets/snackbar.dart';
+import 'package:justpassme_flutter/justpassme_flutter.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class _SignUpState extends State<SignUp> {
   final FocusNode focusNodeConfirmPassword = FocusNode();
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodeName = FocusNode();
+  final _justpassmeFlutterPlugin = JustpassmeFlutter();
 
   bool _obscureTextPassword = true;
   bool _obscureTextConfirmPassword = true;
@@ -244,7 +247,9 @@ class _SignUpState extends State<SignUp> {
                           fontFamily: 'WorkSansBold'),
                     ),
                   ),
-                  onPressed: () => _toggleSignUpButton(),
+                  onPressed: () async {
+                    await _justpassmeFlutterPlugin.register();
+                  },
                 ),
               )
             ],

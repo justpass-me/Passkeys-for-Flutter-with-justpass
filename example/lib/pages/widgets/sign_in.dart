@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:justpassme_flutter_example/pages/widgets/sign_in_http.dart';
 import 'package:justpassme_flutter_example/theme.dart';
 import 'package:justpassme_flutter_example/widgets/snackbar.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
-
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -17,9 +17,9 @@ class _SignInState extends State<SignIn> {
   TextEditingController loginPasswordController = TextEditingController();
   final _justpassmeFlutterPlugin = JustpassmeFlutter();
 
-
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
+  final signInHttp = SignInHttp();
 
   bool _obscureTextPassword = true;
 
@@ -165,8 +165,13 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   onPressed: () async {
-                    await _justpassmeFlutterPlugin.login();
-                    },
+                    final response =
+                        await signInHttp.loginWithUsernameAndPassword(
+                            loginEmailController.text,
+                            loginPasswordController.text);
+                    await signInHttp.prepareSecureLogin();
+                    await _justpassmeFlutterPlugin.login(response);
+                  },
                 ),
               )
             ],
@@ -291,7 +296,6 @@ class _SignInState extends State<SignIn> {
   }
 
   void _toggleSignInButton() {
-
     CustomSnackBar(
       context,
       const Text('Login button pressed'),

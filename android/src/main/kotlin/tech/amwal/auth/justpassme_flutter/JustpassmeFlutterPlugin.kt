@@ -32,23 +32,29 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        this.androidAuth = AndroidAuth(
-            activity = activity,
-            "https://thebank.demo.1pass.tech/",
-            "https://thebank.verify.1pass.tech/auth/",
-            "j1ftu4zi9ukffhykfv6y|70vad6j5qjw"
-        )
         when (call.method) {
             "getPlatformVersion" -> {
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
             }
 
             "register" -> {
+                this.androidAuth = AndroidAuth(
+                    activity = activity,
+                    "https://thebank.demo.1pass.tech/",
+                    "https://thebank.verify.1pass.tech/auth/",
+                    call.argument<String>("sessionId")!!
+                )
                 val response = androidAuth.register()
                 result.success(response)
             }
 
             "login" -> {
+                this.androidAuth = AndroidAuth(
+                    activity = activity,
+                    "https://thebank.demo.1pass.tech/",
+                    "https://thebank.verify.1pass.tech/auth/",
+                    call.argument<String>("sessionId")!!
+                )
                 val response = androidAuth.auth()
                 result.success(response)
             }

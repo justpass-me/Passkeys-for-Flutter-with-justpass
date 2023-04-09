@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:justpassme_flutter_example/pages/login_page.dart';
 
 void main() {

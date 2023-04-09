@@ -11,19 +11,22 @@ class MethodChannelJustpassmeFlutter extends JustpassmeFlutterPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version =
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
 
   @override
-  Future<String?> register() async {
-    final response = await methodChannel.invokeMethod<String>('register');
+  Future<String?> register(String sessionId) async {
+    final response =
+        await methodChannel.invokeMethod<String>('register', {"sessionId":sessionId});
     return response;
   }
 
   @override
-  Future<String?> login() async {
-    final response = await methodChannel.invokeMethod<String>('login');
+  Future<String?> login(String sessionId) async {
+    final response =
+        await methodChannel.invokeMethod<String>('login', {"sessionId":sessionId});
     return response;
   }
 }

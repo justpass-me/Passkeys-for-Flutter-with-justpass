@@ -26,11 +26,11 @@ abstract class JustpassmeFlutterPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> register() {
+  Future<String?> register(String sessionId) {
     throw UnimplementedError('register() has not been implemented.');
   }
 
-  Future<String?> login() {
+  Future<String?> login(String sessionId) {
     throw UnimplementedError('login() has not been implemented.');
   }
 }

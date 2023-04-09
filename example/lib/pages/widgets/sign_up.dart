@@ -248,7 +248,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   onPressed: () async {
-                    await _justpassmeFlutterPlugin.register();
+                    await _justpassmeFlutterPlugin.register("");
                   },
                 ),
               )

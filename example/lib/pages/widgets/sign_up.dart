@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:justpassme_flutter_example/pages/widgets/sign_in_http.dart';
 import 'package:justpassme_flutter_example/theme.dart';
 import 'package:justpassme_flutter_example/widgets/snackbar.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
@@ -18,6 +19,7 @@ class _SignUpState extends State<SignUp> {
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodeName = FocusNode();
   final _justpassmeFlutterPlugin = JustpassmeFlutter();
+  final signInHttp = LoginHttp();
 
   bool _obscureTextPassword = true;
   bool _obscureTextConfirmPassword = true;
@@ -94,38 +96,6 @@ class _SignUpState extends State<SignUp> {
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
-                          focusNode: focusNodeEmail,
-                          controller: signupEmailController,
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          style: const TextStyle(
-                              fontFamily: 'WorkSansSemiBold',
-                              fontSize: 16.0,
-                              color: Colors.black),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              FontAwesomeIcons.envelope,
-                              color: Colors.black,
-                            ),
-                            hintText: 'Email Address',
-                            hintStyle: TextStyle(
-                                fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
-                          ),
-                          onSubmitted: (_) {
-                            focusNodePassword.requestFocus();
-                          },
-                        ),
-                      ),
-                      Container(
-                        width: 250.0,
-                        height: 1.0,
-                        color: Colors.grey[400],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
                           focusNode: focusNodePassword,
                           controller: signupPasswordController,
                           obscureText: _obscureTextPassword,
@@ -157,49 +127,6 @@ class _SignUpState extends State<SignUp> {
                           onSubmitted: (_) {
                             focusNodeConfirmPassword.requestFocus();
                           },
-                        ),
-                      ),
-                      Container(
-                        width: 250.0,
-                        height: 1.0,
-                        color: Colors.grey[400],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
-                          focusNode: focusNodeConfirmPassword,
-                          controller: signupConfirmPasswordController,
-                          obscureText: _obscureTextConfirmPassword,
-                          autocorrect: false,
-                          style: const TextStyle(
-                              fontFamily: 'WorkSansSemiBold',
-                              fontSize: 16.0,
-                              color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: const Icon(
-                              FontAwesomeIcons.lock,
-                              color: Colors.black,
-                            ),
-                            hintText: 'Confirmation',
-                            hintStyle: const TextStyle(
-                                fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
-                            suffixIcon: GestureDetector(
-                              onTap: _toggleSignupConfirm,
-                              child: Icon(
-                                _obscureTextConfirmPassword
-                                    ? FontAwesomeIcons.eye
-                                    : FontAwesomeIcons.eyeSlash,
-                                size: 15.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          onSubmitted: (_) {
-                            _toggleSignUpButton();
-                          },
-                          textInputAction: TextInputAction.go,
                         ),
                       ),
                     ],
@@ -248,7 +175,9 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   onPressed: () async {
-                    await _justpassmeFlutterPlugin.register("");
+                    await signInHttp.checkPassword(signupPasswordController.text);
+                    final session = await signInHttp.getSessionId();
+                    await _justpassmeFlutterPlugin.register(session);
                   },
                 ),
               )

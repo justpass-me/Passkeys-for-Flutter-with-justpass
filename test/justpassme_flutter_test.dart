@@ -12,13 +12,13 @@ class MockJustpassmeFlutterPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<String?> login() {
+  Future<String?> login(String sessionId) {
     // TODO: implement login
     throw UnimplementedError();
   }
 
   @override
-  Future<String?> register() {
+  Future<String?> register(String sessionId) {
     // TODO: implement register
     throw UnimplementedError();
   }

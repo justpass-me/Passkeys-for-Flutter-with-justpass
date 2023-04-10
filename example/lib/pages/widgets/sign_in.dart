@@ -16,10 +16,10 @@ class _SignInState extends State<SignIn> {
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
   final _justpassmeFlutterPlugin = JustpassmeFlutter();
+  final signInHttp = LoginHttp();
 
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
-  final signInHttp = SignInHttp();
 
   bool _obscureTextPassword = true;
 
@@ -165,12 +165,11 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   onPressed: () async {
-                    final response =
-                        await signInHttp.loginWithUsernameAndPassword(
+                    final session = await signInHttp.loginWithUsernameAndPassword(
                             loginEmailController.text,
                             loginPasswordController.text);
                     await signInHttp.prepareSecureLogin();
-                    await _justpassmeFlutterPlugin.login(response);
+                    await _justpassmeFlutterPlugin.login(session);
                   },
                 ),
               )
@@ -236,59 +235,6 @@ class _SignInState extends State<SignIn> {
                 ),
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, right: 40.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Facebook button pressed'),
-                      snackBarAction: SnackBarAction(
-                        label: 'Undo',
-                        onPressed: () {
-                          // Some code to undo the change.
-                        },
-                      )),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      FontAwesomeIcons.facebookF,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Google button pressed'),
-                      snackBarAction: SnackBarAction(
-                        label: 'Undo',
-                        onPressed: () {
-                          // Some code to undo the change.
-                        },
-                      )),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      FontAwesomeIcons.google,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),

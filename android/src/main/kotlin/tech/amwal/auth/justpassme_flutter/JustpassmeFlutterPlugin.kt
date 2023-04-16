@@ -14,7 +14,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import tech.amwal.justpassme.AndroidAuth
-
+import tech.amwal.justpassme.AuthResponse
 
 /** JustpassmeFlutterPlugin */
 class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -44,8 +44,21 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
                     "https://thebank.verify.1pass.tech/auth/",
                     call.argument<String>("sessionId")!!
                 )
-                val response = androidAuth.register()
-                result.success(response)
+                androidAuth.register { authResponse ->
+                    when (authResponse) {
+                        is tech.amwal.justpassme.AuthResponse.Success -> {
+                            android.util.Log.d("JustpassmeFlutterPlugin", "Success")
+                            result.success("success")
+                        }
+
+                        is tech.amwal.justpassme.AuthResponse.Error -> {
+                            android.util.Log.d("JustpassmeFlutterPlugin", "Error")
+                            //return error result to flutter side
+                            result.error("Error", "Error", null)
+
+                        }
+                    }
+                }
             }
 
             "login" -> {
@@ -55,8 +68,21 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
                     "https://thebank.verify.1pass.tech/auth/",
                     call.argument<String>("sessionId")!!
                 )
-                val response = androidAuth.auth()
-                result.success(response)
+                androidAuth.auth { authResponse ->
+                    when (authResponse) {
+                        is tech.amwal.justpassme.AuthResponse.Success -> {
+                            android.util.Log.d("JustpassmeFlutterPlugin", "Success")
+                            result.success("success")
+                        }
+
+                        is tech.amwal.justpassme.AuthResponse.Error -> {
+                            android.util.Log.d("JustpassmeFlutterPlugin", authResponse.error)
+                            //return error result to flutter side
+                            result.error("Error", authResponse.error , null)
+
+                        }
+                    }
+                }
             }
 
             else -> {
@@ -87,11 +113,5 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
     override fun onReattachedToActivityForConfigChanges(@NonNull binding: ActivityPluginBinding) {
         android.util.Log.d("JustpassmeFlutterPlugin", "onReattachedToActivityForConfigChanges")
         this.activity = binding.activity
-        this.androidAuth = AndroidAuth(
-            activity = activity,
-            "https://thebank.demo.1pass.tech/",
-            "https://thebank.verify.1pass.tech/auth/",
-            "session_id"
-        )
     }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:justpassme_flutter_example/pages/widgets/sign_in_http.dart';
+import 'package:justpassme_flutter_example/pages/sign_in_http.dart';
 import 'package:justpassme_flutter_example/theme.dart';
 import 'package:justpassme_flutter_example/widgets/snackbar.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
@@ -168,8 +168,9 @@ class _SignInState extends State<SignIn> {
                     final session = await signInHttp.loginWithUsernameAndPassword(
                             loginEmailController.text,
                             loginPasswordController.text);
-                    await signInHttp.prepareSecureLogin();
-                    await _justpassmeFlutterPlugin.login(session);
+                    await signInHttp.enterOtp("5432");
+                    // await signInHttp.prepareSecureLogin();
+                    // await _justpassmeFlutterPlugin.login(session);
                   },
                 ),
               )

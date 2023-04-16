@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginHttp {
-  final baseUrl = 'https://thebank.demo.1pass.tech/';
+  final baseUrl = 'https://thebank.demo.1pass.tech';
+  final serviceUrl = 'https://thebank.verify.1pass.tech/auth';
   final storage = const FlutterSecureStorage();
-
-  // an immutable variable that holds the sessionId cache for later use in the app
 
   void cacheSessionId(String sessionId) async {
     // Create storage
@@ -44,8 +43,8 @@ class LoginHttp {
   Future<String> prepareSecureLogin() async {
     final url = Uri.parse('$baseUrl/secure_login/start_sign_in');
     final sessionId = await getSessionId();
-    final response =
-        await http.get(url, headers: {"Cookie": 'sessionid=$sessionId'});
+    final response = await http.get(url,
+        headers: {"Cookie": 'sessionid=$sessionId', "AMWAL-PLATFORM": "app"});
 
     if (response.statusCode == 200) {
       return response.body;
@@ -54,12 +53,53 @@ class LoginHttp {
     }
   }
 
+  Future<String> enterOtp(String otp) async {
+    final url = Uri.parse('$baseUrl/api/otp/');
+    final sessionId = await getSessionId();
+    final response = await http.post(url,
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+          "Cookie": 'sessionid=$sessionId',
+          "AMWAL-PLATFORM": "app"
+        },
+        body: jsonEncode({"otp": otp}));
+
+    if (response.statusCode == 200) {
+      // parse response body and get token key value and cast it as String value
+      final token = jsonDecode(response.body)['token'];
+      cacheSessionId(token);
+      return token;
+    } else {
+      throw Exception('Failed to enter otp data');
+    }
+  }
+
   Future<String> checkPassword(String password) async {
     final url =
         Uri.parse('$baseUrl/secure_login/check_password?password=$password');
     final sessionId = await getSessionId();
-    final response =
-        await http.get(url, headers: {"Cookie": 'sessionid=$sessionId'});
+    final response = await http.get(url, headers: {
+      "Cookie": 'sessionid=$sessionId',
+      "AMWAL-PLATFORM": "app",
+      "authorization": "Token $sessionId"
+    });
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to load checkPassword${response.body}');
+    }
+  }
+
+  Future<String> getPublicKey() async {
+    final url =
+        Uri.parse('$baseUrl/oidc/authenticate/');
+    final sessionId = await getSessionId();
+    final response = await http.get(url, headers: {
+      "Cookie": 'sessionid=$sessionId',
+      "AMWAL-PLATFORM": "app",
+      "authorization": "Token $sessionId"
+    });
 
     if (response.statusCode == 200) {
       return response.body;

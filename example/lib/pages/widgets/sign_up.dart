@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:justpassme_flutter_example/pages/widgets/sign_in_http.dart';
+import 'package:justpassme_flutter_example/pages/sign_in_http.dart';
 import 'package:justpassme_flutter_example/theme.dart';
 import 'package:justpassme_flutter_example/widgets/snackbar.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
-
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -175,7 +174,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   onPressed: () async {
-                    await signInHttp.checkPassword(signupPasswordController.text);
+                    await signInHttp
+                        .checkPassword(signupPasswordController.text);
                     final session = await signInHttp.getSessionId();
                     await _justpassmeFlutterPlugin.register(session);
                   },

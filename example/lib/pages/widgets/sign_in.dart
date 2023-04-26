@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:justpassme_flutter_example/pages/sign_in_http.dart';
 import 'package:justpassme_flutter_example/theme.dart';
 import 'package:justpassme_flutter_example/widgets/snackbar.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
-
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
   final _justpassmeFlutterPlugin = JustpassmeFlutter();
-
+  final signInHttp = LoginHttp();
 
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
@@ -165,8 +165,13 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   onPressed: () async {
-                    await _justpassmeFlutterPlugin.login();
-                    },
+                    await signInHttp.loginWithUsernameAndPassword(
+                            loginEmailController.text,
+                            loginPasswordController.text);
+                    await signInHttp.enterOtp("5432");
+                    // await signInHttp.prepareSecureLogin();
+                    // await _justpassmeFlutterPlugin.login(session);
+                  },
                 ),
               )
             ],
@@ -232,66 +237,12 @@ class _SignInState extends State<SignIn> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, right: 40.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Facebook button pressed'),
-                      snackBarAction: SnackBarAction(
-                        label: 'Undo',
-                        onPressed: () {
-                          // Some code to undo the change.
-                        },
-                      )),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      FontAwesomeIcons.facebookF,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Google button pressed'),
-                      snackBarAction: SnackBarAction(
-                        label: 'Undo',
-                        onPressed: () {
-                          // Some code to undo the change.
-                        },
-                      )),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      FontAwesomeIcons.google,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
   }
 
   void _toggleSignInButton() {
-
     CustomSnackBar(
       context,
       const Text('Login button pressed'),

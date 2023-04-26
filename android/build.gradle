@@ -44,7 +44,8 @@ android {
     }
 
     dependencies{
-        implementation 'tech.amwal.justpassme:justpassme:1.0.0-alpha06'
+        // add aar library from local file /libs
+        implementation 'tech.amwal.justpassme:justpassme:1.0.0-alpha12'
         implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
         implementation("androidx.core:core-ktx:1.7.0")
         implementation("androidx.appcompat:appcompat:1.4.0")

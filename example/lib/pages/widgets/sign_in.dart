@@ -165,7 +165,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   onPressed: () async {
-                    final session = await signInHttp.loginWithUsernameAndPassword(
+                    await signInHttp.loginWithUsernameAndPassword(
                             loginEmailController.text,
                             loginPasswordController.text);
                     await signInHttp.enterOtp("5432");

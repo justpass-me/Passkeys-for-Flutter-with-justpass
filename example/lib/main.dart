@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:justpassme_flutter_example/pages/login_page.dart';
+import 'package:justpassme_flutter_example/pages/login.dart';
 
 void main() {
   runApp(const MyApp());

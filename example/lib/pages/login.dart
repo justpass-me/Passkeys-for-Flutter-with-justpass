@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
 }
 
 class _MainView extends StatelessWidget {
-   _MainView({
+  _MainView({
     this.usernameController,
     this.passwordController,
   });
@@ -99,7 +99,9 @@ class _MainView extends StatelessWidget {
               await loginHttp.loginWithUsernameAndPassword(
                   usernameController?.text ?? "",
                   passwordController?.text ?? "");
-              await loginHttp.enterOtp("5432");
+              await loginHttp.enterOtp("5432").then((_) {
+               Navigator.pushNamed(context, '/home');
+              });
             },
           ),
         ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:justpassme_flutter_example/pages/home.dart';
 import 'package:justpassme_flutter_example/pages/login.dart';
+import 'package:justpassme_flutter_example/pages/sign_in_http.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -21,10 +22,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'TheGorgeousLogin',
-      home: LoginPage(),
-    );
+    return MaterialApp(routes: {
+      // The slash means the home page
+      '/': (context) => const LoginPage(),
+      // The second page
+      '/home': (context) => const Home(),
+    });
   }
 }

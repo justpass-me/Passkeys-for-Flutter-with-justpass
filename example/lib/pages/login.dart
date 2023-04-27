@@ -88,8 +88,9 @@ class _MainView extends StatelessWidget {
             text: "Login Passkey",
             onTap: () async {
               await loginHttp.prepareSecureLogin();
-              final sessionId = await loginHttp.getSessionId();
-              await justPassMeClient.login(sessionId);
+              final token = await loginHttp.getSessionId();
+              await justPassMeClient.login("https://thebank.demo.1pass.tech/",
+                  "https://thebank.verify.1pass.tech/auth/", token);
             },
           ),
           const Expanded(child: SizedBox.shrink()),
@@ -100,7 +101,7 @@ class _MainView extends StatelessWidget {
                   usernameController?.text ?? "",
                   passwordController?.text ?? "");
               await loginHttp.enterOtp("5432").then((_) {
-               Navigator.pushNamed(context, '/home');
+                Navigator.pushNamed(context, '/home');
               });
             },
           ),

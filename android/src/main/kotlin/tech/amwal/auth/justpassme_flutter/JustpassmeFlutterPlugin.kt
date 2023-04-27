@@ -40,9 +40,9 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
             "register" -> {
                 this.androidAuth = AndroidAuth(
                     activity = activity,
-                    "https://thebank.demo.1pass.tech/",
-                    "https://thebank.verify.1pass.tech/auth/",
-                    call.argument<String>("sessionId")!!
+                    call.argument<String>("clientUrl")!!,
+                    call.argument<String>("serviceUrl")!!,
+                    call.argument<String>("token")!!
                 )
                 androidAuth.register { authResponse ->
                     when (authResponse) {
@@ -64,13 +64,12 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
             "login" -> {
                 this.androidAuth = AndroidAuth(
                     activity = activity,
-                    "https://thebank.demo.1pass.tech/",
-                    "https://thebank.verify.1pass.tech/auth/",
-                    call.argument<String>("sessionId")!!
+                    call.argument<String>("clientUrl")!!,
+                    call.argument<String>("serviceUrl")!!,
+                    call.argument<String>("token")!!
                 )
                 androidAuth.auth { authResponse ->
                     when (authResponse) {
-                        is tech.amwal.justpassme.AuthResponse.Success -> {
                             android.util.Log.d("JustpassmeFlutterPlugin", "Success")
                             result.success("success")
                         }

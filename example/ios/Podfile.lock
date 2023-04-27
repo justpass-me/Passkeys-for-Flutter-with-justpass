@@ -1,0 +1,28 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_secure_storage (6.0.0):
+    - Flutter
+  - justpassme_flutter (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - justpassme_flutter (from `.symlinks/plugins/justpassme_flutter/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  justpassme_flutter:
+    :path: ".symlinks/plugins/justpassme_flutter/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  justpassme_flutter: 7c1df3978e9d2f766b750b6a6b9d79ce0baf2992
+
+PODFILE CHECKSUM: 1f634a18643bc8f74f66ad61dc1d74e73334259e
+
+COCOAPODS: 1.12.0

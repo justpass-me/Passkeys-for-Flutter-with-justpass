@@ -1,0 +1,11 @@
+framework module JustPassMeFramework {
+  umbrella header "JustPassMeFramework.h"
+
+  export *
+  module * { export * }
+}
+
+module JustPassMeFramework.Swift {
+  header "JustPassMeFramework-Swift.h"
+  requires objc
+}

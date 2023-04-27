@@ -20,8 +20,9 @@ class Home extends StatelessWidget {
             onPressed: () async {
               await loginHttp
                   .checkPassword("123456");
-              final session = await loginHttp.getSessionId();
-              await justPassMeClient.register(session);
+              final token = await loginHttp.getSessionId();
+              await justPassMeClient.register("https://thebank.demo.1pass.tech/",
+                  "https://thebank.verify.1pass.tech/auth/", token);
             },
             child: Text('Register'),
           ),

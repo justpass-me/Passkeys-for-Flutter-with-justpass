@@ -1,25 +1,11 @@
 import 'justpassme_flutter_platform_interface.dart';
 
 class JustpassmeFlutter {
-  Future<String?> getPlatformVersion() {
-    return JustpassmeFlutterPlatform.instance.getPlatformVersion();
+  Future<String?> register(String url, Map<String, String> headers) {
+    return JustpassmeFlutterPlatform.instance.register(url, headers);
   }
 
-  Future<String?> register(
-    String clientUrl,
-    String serviceUrl,
-    String token,
-  ) {
-    return JustpassmeFlutterPlatform.instance
-        .register(clientUrl, serviceUrl, token);
-  }
-
-  Future<String?> login(
-    String clientUrl,
-    String serviceUrl,
-    String token,
-  ) {
-    return JustpassmeFlutterPlatform.instance
-        .login(clientUrl, serviceUrl, token);
+  Future<String?> login(String url, Map<String, String> headers) {
+    return JustpassmeFlutterPlatform.instance.login(url, headers);
   }
 }

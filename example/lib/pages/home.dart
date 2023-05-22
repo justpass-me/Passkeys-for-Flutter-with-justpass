@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
-import 'package:justpassme_flutter_example/pages/sign_in_http.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:justpassme_flutter_example/config.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final justPassMeClient = JustpassmeFlutter();
-    final loginHttp = LoginHttp();
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
@@ -18,16 +20,15 @@ class Home extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              await loginHttp
-                  .checkPassword("123456");
-              final token = await loginHttp.getSessionId();
-              await justPassMeClient.register("https://thebank.demo.1pass.tech/",
-                  "https://thebank.verify.1pass.tech/auth/", token);
+              final userToken = await user?.getIdToken();
+              await justPassMeClient.register(registerUrl,
+                  {"Authorization": "Bearer $userToken"});
             },
             child: Text('Register'),
           ),
           ElevatedButton(
             onPressed: () {
+              FirebaseAuth.instance.signOut();
               Navigator.pushNamed(context, '/');
             },
             child: Text('Logout'),

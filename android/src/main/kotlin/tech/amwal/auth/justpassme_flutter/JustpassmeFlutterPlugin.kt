@@ -13,8 +13,9 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
-import tech.amwal.justpassme.AndroidAuth
+import tech.amwal.justpassme.JustPassMe
 import tech.amwal.justpassme.AuthResponse
+import kotlin.collections.Map
 
 /** JustpassmeFlutterPlugin */
 class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -24,7 +25,7 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
     /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
     private lateinit var activity: Activity
-    private lateinit var androidAuth: AndroidAuth
+    private lateinit var justPassMe: JustPassMe
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "justpassme_flutter")
@@ -38,13 +39,10 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
             }
 
             "register" -> {
-                this.androidAuth = AndroidAuth(
-                    activity = activity,
-                    call.argument<String>("clientUrl")!!,
-                    call.argument<String>("serviceUrl")!!,
-                    call.argument<String>("token")!!
-                )
-                androidAuth.register { authResponse ->
+                justPassMe.register(
+                    call.argument<String>("url")!!,
+                    call.argument<Map<String, String>>("headers")!!
+                ) { authResponse ->
                     when (authResponse) {
                         is tech.amwal.justpassme.AuthResponse.Success -> {
                             android.util.Log.d("JustpassmeFlutterPlugin", "Success")
@@ -62,26 +60,22 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
             }
 
             "login" -> {
-                this.androidAuth = AndroidAuth(
-                    activity = activity,
-                    call.argument<String>("clientUrl")!!,
-                    call.argument<String>("serviceUrl")!!,
-                    call.argument<String>("token")!!
-                )
-                androidAuth.auth { authResponse ->
-                    when (authResponse) {
-                            android.util.Log.d("JustpassmeFlutterPlugin", "Success")
-                            result.success("success")
-                        }
+                justPassMe.register(
+                    call.argument<String>("url")!!,
+                    call.argument<Map<String, String>>("headers")!!){ authResponse ->
+                        when (authResponse) {
+                            is tech.amwal.justpassme.AuthResponse.Success -> {
+                                android.util.Log.d("JustpassmeFlutterPlugin", "Success")
+                                result.success("success")
+                            }
 
-                        is tech.amwal.justpassme.AuthResponse.Error -> {
-                            android.util.Log.d("JustpassmeFlutterPlugin", authResponse.error)
-                            //return error result to flutter side
-                            result.error("Error", authResponse.error , null)
-
+                            is tech.amwal.justpassme.AuthResponse.Error -> {
+                                android.util.Log.d("JustpassmeFlutterPlugin", authResponse.error)
+                                //return error result to flutter side
+                                result.error("Error", authResponse.error, null)
+                            }
                         }
                     }
-                }
             }
 
             else -> {
@@ -97,6 +91,7 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
     override fun onAttachedToActivity(@NonNull binding: ActivityPluginBinding) {
         android.util.Log.d("JustpassmeFlutterPlugin", "onAttachedToActivity")
         this.activity = binding.activity
+        this.justPassMe = JustPassMe(activity)
 
     }
 

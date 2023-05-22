@@ -12,13 +12,13 @@ class MockJustpassmeFlutterPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<String?> login(String sessionId) {
+  Future<String?> login(String url, Map<String, String> headers) {
     // TODO: implement login
     throw UnimplementedError();
   }
 
   @override
-  Future<String?> register(String sessionId) {
+  Future<String?> register(String url, Map<String, String> headers) {
     // TODO: implement register
     throw UnimplementedError();
   }
@@ -29,13 +29,5 @@ void main() {
 
   test('$MethodChannelJustpassmeFlutter is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelJustpassmeFlutter>());
-  });
-
-  test('getPlatformVersion', () async {
-    JustpassmeFlutter justpassmeFlutterPlugin = JustpassmeFlutter();
-    MockJustpassmeFlutterPlatform fakePlatform = MockJustpassmeFlutterPlatform();
-    JustpassmeFlutterPlatform.instance = fakePlatform;
-
-    expect(await justpassmeFlutterPlugin.getPlatformVersion(), '42');
   });
 }

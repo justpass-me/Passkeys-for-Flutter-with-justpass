@@ -21,24 +21,11 @@ abstract class JustpassmeFlutterPlatform extends PlatformInterface {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
-
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
-
-  Future<String?> register(
-    String clientUrl,
-    String serviceUrl,
-    String token,
-  ) {
+  Future<String?> register(String url, Map<String, String> headers) {
     throw UnimplementedError('register() has not been implemented.');
   }
 
-  Future<String?> login(
-    String clientUrl,
-    String serviceUrl,
-    String token,
-  ) {
+  Future<String?> login(String url, Map<String, String> headers) {
     throw UnimplementedError('login() has not been implemented.');
   }
 }

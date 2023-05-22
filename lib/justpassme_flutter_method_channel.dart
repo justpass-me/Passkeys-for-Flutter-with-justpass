@@ -10,36 +10,25 @@ class MethodChannelJustpassmeFlutter extends JustpassmeFlutterPlatform {
   final methodChannel = const MethodChannel('justpassme_flutter');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
-  }
-
-  @override
   Future<String?> register(
-    String clientUrl,
-    String serviceUrl,
-    String token,
+    String url,
+    Map<String, String> headers
   ) async {
     final response = await methodChannel.invokeMethod<String>('register', {
-      "clientUrl": clientUrl,
-      "serviceUrl": serviceUrl,
-      "token": token,
+      "url": url,
+      "headers": headers
     });
     return response;
   }
 
   @override
   Future<String?> login(
-    String clientUrl,
-    String serviceUrl,
-    String token,
+      String url,
+      Map<String, String> headers
   ) async {
     final response = await methodChannel.invokeMethod<String>('login', {
-      "clientUrl": clientUrl,
-      "serviceUrl": serviceUrl,
-      "token": token,
+      "url": url,
+      "headers": headers
     });
     return response;
   }

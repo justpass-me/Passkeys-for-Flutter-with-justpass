@@ -28,3 +28,6 @@ migrate_working_dir/
 .dart_tool/
 .packages
 build/
+example/android/app/google-services.json
+example/ios/firebase_app_id_file.json
+example/lib/firebase_options.dart

@@ -33,10 +33,30 @@ class AuthGate extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: ElevatedButton(
                       onPressed: () async {
-                        final result = await justpassmeFlutterPlugin.login(loginUrl, {}) as Map;
-                        String? token = result['token'] as String?;
-                        if (token != null) {
-                          await FirebaseAuth.instance.signInWithCustomToken(token);
+                        try {
+                          final result = await justpassmeFlutterPlugin.login(loginUrl, {}) as Map;
+                          String? token = result['token'] as String?;
+                          if (token != null) {
+                            await FirebaseAuth.instance.signInWithCustomToken(token);
+                          }
+                        } catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content: Text('${e}'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Close'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         }
                       },
                       child: const Text('Sign in with JustPass.me')));

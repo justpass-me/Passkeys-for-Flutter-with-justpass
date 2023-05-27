@@ -9,6 +9,23 @@ public class JustpassmeFlutterPlugin: NSObject, FlutterPlugin {
         let instance = JustpassmeFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
+
+    func handleJustPassMeClientError(_ error: Error, result: @escaping FlutterResult) {
+        let customError = error as? JustPassMeClient.JustPassMeClientError
+        switch customError {
+        case .badURL:
+            result(FlutterError(code: "BAD_URL", message: "Bad URL", details: nil))
+        case .badResponse:
+            result(FlutterError(code: "BAD_RESPONSE", message: "Bad Response", details: nil))
+        case .noPublicKey:
+            result(FlutterError(code: "NO_PUBLIC_KEY", message: "No Public Key", details: nil))
+        case .runtimeError(let errorMessage):
+            result(FlutterError(code: "RUNTIME_ERROR", message: errorMessage, details: nil))
+        case .none:
+            let nsError = error as NSError
+            result(FlutterError(code: "UNKNOWN_ERROR", message: nsError.localizedDescription, details: nil))
+        }
+    }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if let vc = UIApplication.shared.delegate?.window??.rootViewController  as? FlutterViewController {
@@ -17,15 +34,13 @@ public class JustpassmeFlutterPlugin: NSObject, FlutterPlugin {
                 Task{
                     let argumentsDictionary = call.arguments as? Dictionary<String, Any>
                     do {
-                        let amwalAuthClient = await JustPassMeClient(clientURL: argumentsDictionary?["clientUrl"] as! String,
-                                                                     authServiceURL:argumentsDictionary?["serviceUrl"] as! String,
-                                                                     token :argumentsDictionary?["token"] as! String,
-                                                                     presentationAnchor:(vc.view.window)!);
-                        let response = try await amwalAuthClient.register();
+                        let JustPassMeClient = await JustPassMeClient(presentationAnchor:(vc.view.window)!);
+                        let response = try await JustPassMeClient.register( registrationURL: argumentsDictionary?["url"] as! String,
+                                                                            extraClientHeaders: argumentsDictionary?["headers"] as! [String: String]);
                         result(response)
                         
                     } catch {
-                        result("AmwalAuth" + error.localizedDescription)
+                        handleJustPassMeClientError(error, result: result)
                     }
                 }
                 
@@ -33,20 +48,17 @@ public class JustpassmeFlutterPlugin: NSObject, FlutterPlugin {
                 Task{
                     let argumentsDictionary = call.arguments as? Dictionary<String, Any>
                     do {
-                        let amwalAuthClient = await JustPassMeClient(clientURL: argumentsDictionary?["clientUrl"] as! String,
-                                                                     authServiceURL:argumentsDictionary?["serviceUrl"] as! String,
-                                                                     token :argumentsDictionary?["token"] as! String,
-                                                                     presentationAnchor:(vc.view.window)!);
-                        let response = try await amwalAuthClient.authenticate(autoFill: true);
+                        let JustPassMeClient = await JustPassMeClient(presentationAnchor:(vc.view.window)!);
+                        let response = try await JustPassMeClient.authenticate(authenticationURL: argumentsDictionary?["url"] as! String,
+                                                                            extraClientHeaders: argumentsDictionary?["headers"] as! [String: String]);
                         result(response)
                         
                     } catch {
-                        result("AmwalAuth" + error.localizedDescription)
+                        handleJustPassMeClientError(error, result: result)
                     }
                 }
             default :
-                result("iOS " + UIDevice.current.systemVersion)
-                
+                result(FlutterMethodNotImplemented)
             }
         }
     }

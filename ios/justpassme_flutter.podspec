@@ -15,6 +15,7 @@ A passkey auth SDK for Flutter.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
+  s.dependency 'justpass-me', '>= 0.1.4'
   s.platform = :ios, '16.2'
 
   # Flutter.framework does not contain a i386 slice.

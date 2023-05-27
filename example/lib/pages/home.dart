@@ -20,9 +20,29 @@ class HomeScreen extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              final userToken = await user?.getIdToken();
-              await justPassMeClient.register(registerUrl,
+              try{
+                final userToken = await user?.getIdToken();
+                await justPassMeClient.register(registerUrl,
                   {"Authorization": "Bearer $userToken"});
+              } catch (e) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Error'),
+                      content: Text('${e}'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Close'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             },
             child: Text('Register'),
           ),

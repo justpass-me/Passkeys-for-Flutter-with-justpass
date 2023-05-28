@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>373216311577-n9pv9jklulp62v689s2m2sehqgfeeis6.apps.googleusercontent.com</string>
+	<string>663406567530-1lb620u1216td0jmvkav123gk11hjcv6.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.373216311577-n9pv9jklulp62v689s2m2sehqgfeeis6</string>
+	<string>com.googleusercontent.apps.663406567530-1lb620u1216td0jmvkav123gk11hjcv6</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>663406567530-pdkamp0jgoh119no5bblq5l276ataj2m.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBGeiQNdOfJ8ZBHqSKtvI0FeRiV-PbZTig</string>
+	<string>AIzaSyD7wQ3MFIupFwoDXiMnjNGtJa9SVxPIAFQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>373216311577</string>
+	<string>663406567530</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>tech.amwal.auth.justpassmeFlutterExample</string>
 	<key>PROJECT_ID</key>
-	<string>flutterdemo-f5263</string>
+	<string>justpass-me-sdk-example</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flutterdemo-f5263.appspot.com</string>
+	<string>justpass-me-sdk-example.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:373216311577:ios:6fb63855bf4af11c9ced88</string>
+	<string>1:663406567530:ios:22688c82031336b62c2a13</string>
 </dict>
 </plist>

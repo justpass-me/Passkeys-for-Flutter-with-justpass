@@ -52,7 +52,7 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
                         is tech.amwal.justpassme.AuthResponse.Error -> {
                             android.util.Log.d("JustpassmeFlutterPlugin", "Error")
                             //return error result to flutter side
-                            result.error("Error", "Error", null)
+                            result.error("Error", authResponse.error, null)
 
                         }
                     }
@@ -60,22 +60,23 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
             }
 
             "login" -> {
-                justPassMe.register(
+                justPassMe.auth(
                     call.argument<String>("url")!!,
-                    call.argument<Map<String, String>>("headers")!!){ authResponse ->
-                        when (authResponse) {
-                            is tech.amwal.justpassme.AuthResponse.Success -> {
-                                android.util.Log.d("JustpassmeFlutterPlugin", "Success")
-                                result.success("success")
-                            }
+                    call.argument<Map<String, String>>("headers")!!
+                ) { authResponse ->
+                    when (authResponse) {
+                        is tech.amwal.justpassme.AuthResponse.Success -> {
+                            android.util.Log.d("JustpassmeFlutterPlugin", "Success")
+                            result.success("success")
+                        }
 
-                            is tech.amwal.justpassme.AuthResponse.Error -> {
-                                android.util.Log.d("JustpassmeFlutterPlugin", authResponse.error)
-                                //return error result to flutter side
-                                result.error("Error", authResponse.error, null)
-                            }
+                        is tech.amwal.justpassme.AuthResponse.Error -> {
+                            android.util.Log.d("JustpassmeFlutterPlugin", authResponse.error)
+                            //return error result to flutter side
+                            result.error("Error", authResponse.error, null)
                         }
                     }
+                }
             }
 
             else -> {

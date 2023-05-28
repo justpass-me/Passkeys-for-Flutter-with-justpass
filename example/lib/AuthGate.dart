@@ -40,6 +40,7 @@ class AuthGate extends StatelessWidget {
                             await FirebaseAuth.instance.signInWithCustomToken(token);
                           }
                         } catch (e) {
+                          print('${e}');
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

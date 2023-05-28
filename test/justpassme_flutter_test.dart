@@ -8,17 +8,15 @@ class MockJustpassmeFlutterPlatform
     with MockPlatformInterfaceMixin
     implements JustpassmeFlutterPlatform {
 
-  @override
-  Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<String?> login(String url, Map<String, String> headers) {
+  Future<Map<dynamic, dynamic>> login(String url, Map<String, String> headers) {
     // TODO: implement login
     throw UnimplementedError();
   }
 
   @override
-  Future<String?> register(String url, Map<String, String> headers) {
+  Future<Map<dynamic, dynamic>> register(String url, Map<String, String> headers) {
     // TODO: implement register
     throw UnimplementedError();
   }

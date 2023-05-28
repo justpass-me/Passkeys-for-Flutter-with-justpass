@@ -21,11 +21,13 @@ abstract class JustpassmeFlutterPlatform extends PlatformInterface {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
-  Future<String?> register(String url, Map<String, String> headers) {
+
+  Future<Map<dynamic, dynamic>> register(
+      String url, Map<String, String> headers) {
     throw UnimplementedError('register() has not been implemented.');
   }
 
-  Future<String?> login(String url, Map<String, String> headers) {
+  Future<Map<dynamic, dynamic>> login(String url, Map<String, String> headers) {
     throw UnimplementedError('login() has not been implemented.');
   }
 }

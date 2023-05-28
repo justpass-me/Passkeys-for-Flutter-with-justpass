@@ -34,10 +34,6 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
-            "getPlatformVersion" -> {
-                result.success("Android ${android.os.Build.VERSION.RELEASE}")
-            }
-
             "register" -> {
                 justPassMe.register(
                     call.argument<String>("url")!!,
@@ -45,14 +41,14 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
                 ) { authResponse ->
                     when (authResponse) {
                         is tech.amwal.justpassme.AuthResponse.Success -> {
-                            android.util.Log.d("JustpassmeFlutterPlugin", "Success")
-                            result.success("success")
+                            android.util.Log.d("JustpassmeFlutterPlugin", "Success");
+                            result.success(mapOf("token" to authResponse.token));
                         }
 
                         is tech.amwal.justpassme.AuthResponse.Error -> {
-                            android.util.Log.d("JustpassmeFlutterPlugin", "Error")
+                            android.util.Log.d("JustpassmeFlutterPlugin", "Error");
                             //return error result to flutter side
-                            result.error("Error", authResponse.error, null)
+                            result.error("Error", authResponse.error, null);
 
                         }
                     }
@@ -67,7 +63,7 @@ class JustpassmeFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware 
                     when (authResponse) {
                         is tech.amwal.justpassme.AuthResponse.Success -> {
                             android.util.Log.d("JustpassmeFlutterPlugin", "Success")
-                            result.success("success")
+                            result.success(mapOf("token" to authResponse.token))
                         }
 
                         is tech.amwal.justpassme.AuthResponse.Error -> {

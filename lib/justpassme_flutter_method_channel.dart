@@ -10,26 +10,26 @@ class MethodChannelJustpassmeFlutter extends JustpassmeFlutterPlatform {
   final methodChannel = const MethodChannel('justpassme_flutter');
 
   @override
-  Future<String?> register(
+  Future<Map<dynamic, dynamic>> register(
     String url,
     Map<String, String> headers
   ) async {
-    final response = await methodChannel.invokeMethod<String>('register', {
+    final response = await methodChannel.invokeMethod<Map<dynamic, dynamic>>('register', {
       "url": url,
       "headers": headers
     });
-    return response;
+    return response ?? {};
   }
 
   @override
-  Future<String?> login(
+  Future<Map<dynamic, dynamic>> login(
       String url,
       Map<String, String> headers
   ) async {
-    final response = await methodChannel.invokeMethod<String>('login', {
+    final response = await methodChannel.invokeMethod<Map<dynamic, dynamic>>('login', {
       "url": url,
       "headers": headers
     });
-    return response;
+    return response ?? {};
   }
 }

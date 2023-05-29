@@ -18,6 +18,11 @@ class HomeScreen extends StatelessWidget {
       body: Center(
           child: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.all(16.0), // apply padding to all sides
+            child: 
+              Text('Welcome ${user?.email}',
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))),
           ElevatedButton(
             onPressed: () async {
               try{

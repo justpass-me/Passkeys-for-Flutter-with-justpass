@@ -11,7 +11,6 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final justpassmeFlutterPlugin = JustpassmeFlutter();
-    final user = FirebaseAuth.instance.currentUser;
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {

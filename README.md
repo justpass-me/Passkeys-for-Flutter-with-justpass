@@ -2,6 +2,10 @@
 
 JustPassMe is an awesome authentication library that lets you register and authenticate users using passkeys. Passkeys are secure and convenient ways to log in without passwords. No more forgetting passwords or resetting them every time! 😎
 
+## Supported Platforms
+- Flutter Android
+- Flutter iOS
+
 ## Setup 🛠
 To use JustPassMe in your flutter app, you need to :-
 1. In Dashboard, create an organization, and add the following details:
@@ -44,98 +48,95 @@ By the end of this step you should have your passkey `registration` and `login` 
 ## Installation 📥
 
 To install JustPassMe in your Flutter app, you just need to add the following dependency to your app's `pubspec.yaml` file:
+Run this command:
 
-```kotlin
-implementation("tech.amwal.justpassme:justpassme:1.0.0-beta06")
+With Dart:
+```shell
+$ dart pub add justpassme_flutter
+```
+With Flutter:
+```shell
+$ flutter pub add justpassme_flutter
+```
+This will add a line like this to your package's pubspec.yaml (and run an implicit dart pub get):
+```yaml
+dependencies:
+  justpassme_flutter: ^0.0.1+1
 ```
 **Note** : This is a beta version of the library and the API design may change before the stable release. Stay tuned for updates! 🔥
 
 ## Getting Started 🏁
 To use JustPassMe in your app, you need to do the following:
 
-1. Create a JustPassMe instance with the activity as a parameter:
-```kotlin
-val justPassMe : JustPassMe = JustPassMe(activity)
+1. Create a JustPassMe instance:
+```dart
+import 'package:justpassme_flutter/justpassme_flutter.dart';
+
+final justPassMeClient = JustPassMe();
 ```
 2. After finishing the backend integration, you will need to know the API endpoints for both registration and login, Incase of using Firebase as your backend, checkout our [Firebase Documentation](/pages/docs/backend/firebase-extension.md) your endpoints will be as follows:
     - Backend
-    ```kotlin
-    const val BASE_URL = "https://<YOUR_backend_DOMAIN>"
+    ```dart
+    final BASE_URL = "https://<YOUR_backend_DOMAIN>";
     ```
     - Firebase
-    ```kotlin
-    const val BASE_URL = "https://<YOUR_FIREBASE_PROJECT_ID>.cloudfunctions.net/ext-justpass-me-oidc/"
+    ```dart
+    final BASE_URL = "https://<YOUR_FIREBASE_PROJECT_ID>.cloudfunctions.net/ext-justpass-me-oidc/";
     ```
 
 ## Registration 📝
 To create a passkey for your logged in user, you need to do the following:
 1. Construct the registration URL by getting it from your backend, incase of Firebase it will be appending "/register" to the `BASE_URL`:
     - Backend
-    ```kotlin
-    val registrationUrl = "${BASE_URL}/<YourRegistrationEndpoint>"
+    ```dart
+    final registrationUrl = "${BASE_URL}/<YourRegistrationEndpoint>";
     ```
     - Firebase
-    ```kotlin
-    val registrationUrl = "${BASE_URL}/register"
+    ```dart
+    final registrationUrl = "${BASE_URL}/register";
     ```
 2. Get your logged user's token or any Id that you wish to be retuned when the user login with Passkeys later.
     - **Note** Incase of Firebase pass your currentUser token, checkout our [Firebase Documentation](/pages/docs/backend/firebase-extension.md)
 3. **Required**: Pass your token as a header value with the key “Authorization” and the prefix “Bearer” in a map like this:
-```kotlin
-val headers = mapOf("Authorization" to "Bearer $token")
+```dart
+final headers = {"Authorization" : "Bearer $token"};
 ``` 
 4. Call the register method on the justPassMe instance and pass the registration URL, the headers map, and a callback function as parameters:
-```kotlin
-justPassMe.register(registrationUrl, headers){ authResponse ->
-     when (authResponse) {
-        is AuthResponse.Success -> {
-            // Passkey was created
-            }
-        is AuthResponse.Error -> {
-            // Reason behind the faliure
-            authResponse.error
-        }
-     }
-}
+```dart
+final result = await justPassMeClient.register(registrationUrl , headers);
 ```
-The callback function receives an authResponse object that represents one of two cases:
-- Success : A new passkey was created for the user and they can now log in with it. Hooray! 🙌
-- Error : An error message shows the reason behind the failure. Don’t worry, we’ll help you fix it! 💪
 
 ## Login 🔑
 To log in a user that has a passkey for your app, you need to do the following:
 
 1. Construct the login by getting it from your Backend Endpoints, Incase of Firebase you get the URL by appending "/authenticate" to the BASE_URL:
     - Backend
-    ```kotlin
-    val loginUrl = "${BASE_URL}/<YourLoginEndpoint>"
+    ```dart
+    final loginUrl = "${BASE_URL}/<YourLoginEndpoint>";
     ```
     - Firebase
-    ```kotlin
-    val loginUrl = "${BASE_URL}/authenticate"
+    ```dart
+    final loginUrl = "${BASE_URL}/authenticate";
     ```
 2. **(Optional)** IIf you want to pass any extra headers while logging in the user, you can create a map with the header key-value pairs like this:
-```kotlin
-val extraHeaders = mapOf("Header-Key" to "Header-Value")
+```dart
+
+val extraHeaders = {"Header-Key": "Header-Value"};
 ``` 
 3. Call the auth method on the `justPassMe` instance and pass the login URL, the extra headers map (if any), and a callback function as parameters:
-```kotlin
-justPassMe.auth(loginUrl, extraHeaders){ authResponse ->
-     when (authResponse) {
-        is AuthResponse.Success -> {
-            // User loggedIn with passkey
-            // You can use your token
-            authResponse.token
-            }
-        is AuthResponse.Error -> {
-            // Reason behind the faliure
-            authResponse.error
-        }
-     }
+```dart
+    final result = await justPassMeClient.login(loginUrl, headers);
+```
+The callback function receives a map object that represents your login creditials
+
+If you are using Fireabse make sure to login the user in fireabse with the result custom token
+
+```dart
+
+String? token = result['token'] as String?;
+if (token != null) {
+await FirebaseAuth.instance.signInWithCustomToken(token);
 }
 ```
-The callback function receives an authResponse object that represents one of two cases:
-- Success: The user logged in with passkey successfully and you can use their token. Awesome! 😊
-- Error: An error message shows the reason behind the failure. Oops! 😬
 
 That’s it! You have successfully integrated JustPassMe in your app and made it easier for your users.

@@ -1,23 +1,23 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'justpassme_flutter_method_channel.dart';
 
-abstract class JustpassmeFlutterPlatform extends PlatformInterface {
+abstract class JustPassMeFlutterPlatform extends PlatformInterface {
   /// Constructs a JustpassmeFlutterPlatform.
-  JustpassmeFlutterPlatform() : super(token: _token);
+  JustPassMeFlutterPlatform() : super(token: _token);
 
   static final Object _token = Object();
 
-  static JustpassmeFlutterPlatform _instance = MethodChannelJustpassmeFlutter();
+  static JustPassMeFlutterPlatform _instance = MethodChannelJustPassMe();
 
-  /// The default instance of [JustpassmeFlutterPlatform] to use.
+  /// The default instance of [JustPassMeFlutterPlatform] to use.
   ///
-  /// Defaults to [MethodChannelJustpassmeFlutter].
-  static JustpassmeFlutterPlatform get instance => _instance;
+  /// Defaults to [MethodChannelJustPassMe].
+  static JustPassMeFlutterPlatform get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
-  /// platform-specific class that extends [JustpassmeFlutterPlatform] when
+  /// platform-specific class that extends [JustPassMeFlutterPlatform] when
   /// they register themselves.
-  static set instance(JustpassmeFlutterPlatform instance) {
+  static set instance(JustPassMeFlutterPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

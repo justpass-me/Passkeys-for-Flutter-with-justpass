@@ -6,7 +6,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockJustpassmeFlutterPlatform
     with MockPlatformInterfaceMixin
-    implements JustpassmeFlutterPlatform {
+    implements JustPassMeFlutterPlatform {
 
 
   @override
@@ -23,9 +23,9 @@ class MockJustpassmeFlutterPlatform
 }
 
 void main() {
-  final JustpassmeFlutterPlatform initialPlatform = JustpassmeFlutterPlatform.instance;
+  final JustPassMeFlutterPlatform initialPlatform = JustPassMeFlutterPlatform.instance;
 
-  test('$MethodChannelJustpassmeFlutter is the default instance', () {
-    expect(initialPlatform, isInstanceOf<MethodChannelJustpassmeFlutter>());
+  test('$MethodChannelJustPassMe is the default instance', () {
+    expect(initialPlatform, isInstanceOf<MethodChannelJustPassMe>());
   });
 }

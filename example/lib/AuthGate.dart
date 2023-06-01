@@ -10,7 +10,8 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final justpassmeFlutterPlugin = JustpassmeFlutter();
+    final justPassMeClient = JustPassMe();
+    final user = FirebaseAuth.instance.currentUser;
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -33,7 +34,7 @@ class AuthGate extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         try {
-                          final result = await justpassmeFlutterPlugin.login(loginUrl, {}) as Map;
+                          final result = await justPassMeClient.login(loginUrl, {});
                           String? token = result['token'] as String?;
                           if (token != null) {
                             await FirebaseAuth.instance.signInWithCustomToken(token);
@@ -44,11 +45,11 @@ class AuthGate extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Error'),
-                                content: Text('${e}'),
+                                title: const Text('Error'),
+                                content: Text('$e'),
                                 actions: <Widget>[
                                   TextButton(
-                                    child: Text('Close'),
+                                    child: const Text('Close'),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },

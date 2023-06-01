@@ -893,7 +893,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   justpass-me: a5bf9f4f82fba041da62d404ec0ac388ab4a7bc4
-  justpassme_flutter: 35a64c5166bf9dcaaa0ad4bd304b87f5bdaaffa4
+  justpassme_flutter: 93921bc4da378545727117774430e0a5851b0063
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431

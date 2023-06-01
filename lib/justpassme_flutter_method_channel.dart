@@ -4,8 +4,8 @@ import 'dart:convert';
 
 import 'justpassme_flutter_platform_interface.dart';
 
-/// An implementation of [JustpassmeFlutterPlatform] that uses method channels.
-class MethodChannelJustpassmeFlutter extends JustpassmeFlutterPlatform {
+/// An implementation of [MethodChannelJustPassMe] that uses method channels.
+class MethodChannelJustPassMe extends JustPassMeFlutterPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('justpassme_flutter');

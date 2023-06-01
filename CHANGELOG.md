@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.1+1
 
-* TODO: Describe initial release.
+* Initial release of package to allow using JustPass passkeys SDK on Flutter.

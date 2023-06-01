@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final justPassMeClient = JustpassmeFlutter();
+    final justPassMeClient = JustPassMe();
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(

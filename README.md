@@ -11,7 +11,7 @@ To use JustPassMe in your flutter app, you need to :-
 1. In Dashboard, create an organization, and add the following details:
     - Android
         - Application Package Name to your organization in JustPassMe dashboard.
-        - SHA-1 fingerprint for your application to your organization in JustPassMe dashboard.
+        - SHA-256 fingerprint for your application to your organization in JustPassMe dashboard.
     - iOS
         - Bundle Id to the organization dashboard.
 

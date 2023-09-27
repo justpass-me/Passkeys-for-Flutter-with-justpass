@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:justpassme_flutter_example/pages/home.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
 import 'package:justpassme_flutter_example/config.dart';
@@ -11,14 +11,15 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final justPassMeClient = JustPassMe();
-    final user = FirebaseAuth.instance.currentUser;
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SignInScreen(
-            providerConfigs: const [
-              EmailProviderConfiguration(),
+            actions: [
+              AuthStateChangeAction<SignedIn>((context, state) {
+                Navigator.pop(context);
+              }),
             ],
             subtitleBuilder: (context, action) {
               return Padding(

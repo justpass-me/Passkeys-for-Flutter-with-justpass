@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'AuthGate.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,6 +12,17 @@ void main() async {
       name: 'justpass-me-sdk-example',
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    FirebaseUIAuth.configureProviders([
+      EmailLinkAuthProvider(
+        actionCodeSettings: ActionCodeSettings(
+          url: 'https://justpassmeflutterexample.page.link/email-link-login',
+          handleCodeInApp: true,
+          androidMinimumVersion: '1',
+          androidPackageName: 'tech.amwal.auth.justpassme_flutter_example',
+          iOSBundleId: 'tech.amwal.auth.justpassmeFlutterExample',
+        ),
+      ),
+    ]);
   }
   runApp(const MyApp());
 }

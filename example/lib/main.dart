@@ -42,11 +42,11 @@ class _MyAppState extends State<MyApp> {
 
   //Splash screen Widget
   Widget splashScreen() {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               'JustPassMe',
               style: TextStyle(

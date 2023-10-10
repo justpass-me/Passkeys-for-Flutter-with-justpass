@@ -5,12 +5,20 @@ import 'package:justpassme_flutter_example/pages/home.dart';
 import 'package:justpassme_flutter/justpassme_flutter.dart';
 import 'package:justpassme_flutter_example/config.dart';
 
-class AuthGate extends StatelessWidget {
+class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
 
   @override
+  _AuthGateState createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
+  final justPassMeClient = JustPassMe();
+  bool isLoading = false;
+  bool isButtonDisabled = false;
+
+  @override
   Widget build(BuildContext context) {
-    final justPassMeClient = JustPassMe();
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -31,42 +39,46 @@ class AuthGate extends StatelessWidget {
             },
             footerBuilder: (context, action) {
               return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        try {
-                          final result = await justPassMeClient.login(loginUrl, {});
-                          String? token = result['token'] as String?;
-                          if (token != null) {
-                            await FirebaseAuth.instance.signInWithCustomToken(token);
-                          }
-                        } catch (e) {
-                          print('${e}');
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Error'),
-                                content: Text('$e'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Close'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
-                      child: const Text('Sign in with JustPass.me')));
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                    onPressed: isButtonDisabled
+                        ? null
+                        : () async {
+                            setState(() {
+                              isLoading = true;
+                              isButtonDisabled = true;
+                            });
+                            try {
+                              final result =
+                                  await justPassMeClient.login(loginUrl, {});
+                              String? token = result['token'] as String?;
+                              if (token != null) {
+                                await FirebaseAuth.instance
+                                    .signInWithCustomToken(token);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeScreen(),
+                                    ));
+                              }
+                            } catch (e) {
+                              print(e);
+                            } finally {
+                              setState(() {
+                                isLoading = false;
+                                isButtonDisabled = false;
+                              });
+                            }
+                          },
+                    child: isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text('Sign in with JustPass.me')),
+              );
             },
           );
+        } else {
+          return HomeScreen();
         }
-
-        return const HomeScreen();
       },
     );
   }
